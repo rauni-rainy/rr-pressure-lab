@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="An interactive explanation of the SupeRR pressure reliability model for Rajasthan Royals' IPL 2027 auction analysis."
+    />
+    <meta name="author" content="Raunak Prasad, NIT Durgapur" />
+    <meta name="theme-color" content="#e31b7a" />
+    <title>SupeRR Pressure Lab | Rajasthan Royals 2027</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script defer src="data.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to dashboard</a>
+
+    <header class="site-header" aria-label="Primary navigation">
+      <div class="brand-cluster">
+        <a class="brand" href="#top" aria-label="SupeRR Pressure Lab by Raunak Prasad, NIT Durgapur">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>SupeRR <em>Pressure Lab</em></span>
+        </a>
+        <p class="creator-credit">Raunak Prasad <span aria-hidden="true">·</span> NIT Durgapur</p>
+      </div>
+      <nav class="nav-links" aria-label="Dashboard sections">
+        <a href="#rankings">Rankings</a>
+        <a href="#pressure-lab">Pressure lab</a>
+        <a href="#engine">Engine</a>
+        <a href="#evidence">Evidence</a>
+      </nav>
+      <a class="nav-cta" href="#auction-fit">RR auction fit <span aria-hidden="true">→</span></a>
+    </header>
+
+    <main id="main-content">
+      <section id="top" class="hero jaali-grid" aria-labelledby="hero-title">
+        <div class="hero-architecture" aria-hidden="true">
+          <svg viewBox="0 0 1000 420" role="presentation" preserveAspectRatio="xMidYMax slice">
+            <path d="M0 420V228h78v-72h48v72h34v-108h48v108h34v-72h48v72h48v-182h66v182h40v-92h50v92h35v-136h70v136h40v-92h50v92h38v-182h66v182h47v-72h48v72h42v-108h48v108h36v-72h48v72h84v192H0Z" fill="currentColor" opacity=".14"/>
+            <path d="M164 228v-60c0-42 30-76 68-76s68 34 68 76v60M408 228v-94c0-52 38-94 85-94s85 42 85 94v94M700 228v-60c0-42 30-76 68-76s68 34 68 76v60" fill="none" stroke="currentColor" stroke-width="12" opacity=".22"/>
+            <circle cx="493" cy="32" r="25" fill="currentColor" opacity=".25"/>
+          </svg>
+        </div>
+        <div class="hero-copy">
+          <p class="eyebrow">Rajasthan Royals 2027 · Data room</p>
+          <h1 id="hero-title">Pressure,<br /><span>quantified.</span></h1>
+          <p class="hero-description">
+            A living explanation of how delivery-level cricket data becomes a reliable auction decision.
+            Context first. Outcome second. Reputation never.
+          </p>
+          <p class="hero-byline">An analytical project by <strong>Raunak Prasad</strong> <span aria-hidden="true">·</span> NIT Durgapur</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#rankings">Explore the rankings <span aria-hidden="true">↓</span></a>
+            <a class="button button-ghost" href="#pressure-lab">Try the pressure lab</a>
+          </div>
+        </div>
+        <div class="hero-scorecard" aria-label="Model scope">
+          <div class="arch-top" aria-hidden="true"></div>
+          <p class="eyebrow">The evidence base</p>
+          <div class="metric-row">
+            <strong id="matchesMetric">813</strong>
+            <span>completed<br />T20 matches</span>
+          </div>
+          <div class="metric-row">
+            <strong id="deliveriesMetric">192,235</strong>
+            <span>eligible<br />deliveries</span>
+          </div>
+          <div class="metric-row">
+            <strong id="pressureShareMetric">18.14%</strong>
+            <span>pressure-state<br />delivery share</span>
+          </div>
+          <p class="microcopy">IPL + T20I, 2022–2026 · Powerplay states excluded</p>
+        </div>
+      </section>
+
+      <section id="rankings" class="section section-ranking" aria-labelledby="rankings-title">
+        <div class="section-heading">
+          <p class="eyebrow">01 · Ranking command centre</p>
+          <h2 id="rankings-title">The final lists, with the evidence still attached.</h2>
+          <p>
+            These are not fame tables. Every score combines pressure output, improvement against a player's own ordinary level, and repeatability across matches.
+          </p>
+        </div>
+
+        <div class="control-bar" aria-label="Ranking controls">
+          <div class="segmented" role="group" aria-label="Player role">
+            <button class="role-toggle is-active" id="battersTab" type="button" aria-pressed="true" data-role="batters">Batters</button>
+            <button class="role-toggle" id="bowlersTab" type="button" aria-pressed="false" data-role="bowlers">Bowlers</button>
+          </div>
+          <label class="search-control" for="playerSearch">
+            <span class="sr-only">Search eligible players</span>
+            <input id="playerSearch" type="search" placeholder="Find a player" autocomplete="off" />
+            <span aria-hidden="true">⌕</span>
+          </label>
+          <p id="rankingContext" class="control-note" aria-live="polite"></p>
+        </div>
+
+        <div class="ranking-layout">
+          <article class="data-card ranking-table-card">
+            <div class="card-heading">
+              <div>
+                <p class="eyebrow" id="rankingRoleLabel">Batting reliability</p>
+                <h3 id="rankingTableTitle">Top 10 batters under pressure</h3>
+              </div>
+              <span class="signal-pill"><span class="status-dot"></span> audited evidence</span>
+            </div>
+            <div class="table-wrap">
+              <table id="rankingTable">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Player</th>
+                    <th scope="col">Reliability</th>
+                    <th scope="col">Pressure balls</th>
+                    <th scope="col">Uplift / 100</th>
+                  </tr>
+                </thead>
+                <tbody id="rankingTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <aside class="player-detail arch-card" aria-labelledby="playerDetailTitle">
+            <p class="eyebrow">Selected evidence card</p>
+            <div class="player-role-chip" id="playerRoleChip">Batter</div>
+            <h3 id="playerDetailTitle">Tristan Stubbs</h3>
+            <p id="playerDetailSummary" class="detail-summary"></p>
+            <div class="detail-score">
+              <span>Pressure reliability</span>
+              <strong id="detailScore">71.0</strong>
+              <span>/ 100</span>
+            </div>
+            <div class="detail-grid">
+              <div><span>Pressure balls</span><strong id="detailBalls">301</strong></div>
+              <div><span>Pressure matches</span><strong id="detailMatches">29</strong></div>
+              <div><span>IPL / T20I</span><strong id="detailSplit">204 / 97</strong></div>
+              <div><span>Cautious score</span><strong id="detailCautious">+39.7</strong></div>
+            </div>
+            <div class="evidence-bar" aria-label="Positive pressure-match rate">
+              <div class="evidence-bar-label"><span>Positive-pressure match rate</span><strong id="detailPositiveRate">65.7%</strong></div>
+              <div class="progress-track"><span id="detailProgress" style="width: 65.7%"></span></div>
+            </div>
+            <p class="detail-note">Click any player in the table or evidence chart to inspect the raw contribution behind the rank.</p>
+          </aside>
+        </div>
+
+        <article class="chart-card score-chart-card">
+          <div class="card-heading">
+            <div>
+              <p class="eyebrow">Evidence, not a black box</p>
+              <h3>Reliability score leaderboard</h3>
+            </div>
+            <span class="chart-legend"><span class="legend-dot"></span> score out of 100</span>
+          </div>
+          <div class="chart-shell chart-shell-bar"><canvas id="rankingChart" aria-label="Reliability score bar chart" role="img"></canvas></div>
+        </article>
+      </section>
+
+      <section id="pressure-lab" class="section section-lab jaali-grid" aria-labelledby="pressure-title">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">02 · Pressure lab</p>
+            <h2 id="pressure-title">Let the match situation set the difficulty.</h2>
+          </div>
+          <p>
+            Pressure is calculated <strong>before</strong> the ball is bowled. This standard 20-over lab rebuilds a chase or first-innings scenario, so you can see the model separate a routine delivery from a high-stakes one.
+          </p>
+        </div>
+
+        <div class="lab-layout">
+          <article class="lab-panel data-card">
+            <div class="phase-switch" role="group" aria-label="Innings type">
+              <button type="button" class="phase-toggle is-active" data-phase="chase" aria-pressed="true">Chase</button>
+              <button type="button" class="phase-toggle" data-phase="first" aria-pressed="false">First innings</button>
+            </div>
+
+            <div id="chaseControls" class="slider-stack">
+              <label class="range-row" for="rrrInput"><span>Required run rate</span><output id="rrrOutput">11.4</output><input id="rrrInput" type="range" min="5" max="18" step="0.1" value="11.4" /></label>
+              <label class="range-row" for="parRateInput"><span>Season par rate</span><output id="parRateOutput">9.5</output><input id="parRateInput" type="range" min="7" max="12" step="0.1" value="9.5" /></label>
+              <label class="range-row" for="wicketsLeftInput"><span>Wickets in hand</span><output id="wicketsLeftOutput">3</output><input id="wicketsLeftInput" type="range" min="0" max="5" step="1" value="3" /></label>
+              <label class="range-row" for="ballsUsedInput"><span>Legal balls used</span><output id="ballsUsedOutput">84</output><input id="ballsUsedInput" type="range" min="0" max="120" step="1" value="84" /></label>
+            </div>
+
+            <div id="firstControls" class="slider-stack" hidden>
+              <label class="range-row" for="firstBallsInput"><span>Legal balls used</span><output id="firstBallsOutput">84</output><input id="firstBallsInput" type="range" min="0" max="120" step="1" value="84" /></label>
+              <label class="range-row" for="wicketsLostInput"><span>Wickets lost</span><output id="wicketsLostOutput">5</output><input id="wicketsLostInput" type="range" min="0" max="8" step="1" value="5" /></label>
+              <label class="range-row" for="firstParRateInput"><span>Season par rate</span><output id="firstParRateOutput">9.5</output><input id="firstParRateInput" type="range" min="7" max="12" step="0.1" value="9.5" /></label>
+              <label class="range-row" for="scoreBeforeInput"><span>Current score</span><output id="scoreBeforeOutput">116</output><input id="scoreBeforeInput" type="range" min="0" max="220" step="1" value="116" /></label>
+              <p id="firstParScore" class="derived-par">Derived par at this stage: 133.0 runs</p>
+            </div>
+          </article>
+
+          <aside class="pressure-result arch-card">
+            <p class="eyebrow">Live pre-ball read</p>
+            <div id="pressureGauge" class="pressure-gauge" style="--gauge: 0.57">
+              <div><strong id="pressureScore">0.57</strong><span>pressure index</span></div>
+            </div>
+            <div class="pressure-status"><span id="pressureStatusDot" class="status-dot"></span><strong id="pressureStatus" aria-live="polite">High-pressure state</strong></div>
+            <p id="pressureNarrative" class="result-copy"></p>
+            <div class="formula-output">
+              <code id="pressureFormula"></code>
+              <div id="pressureTerms" class="term-grid"></div>
+            </div>
+            <p class="threshold-note">Model cutoff: <strong>0.5705</strong> · Highest 20% of positive pre-ball states enter the pressure sample.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="engine" class="section engine-section" aria-labelledby="engine-title">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">03 · The statistical engine</p>
+            <h2 id="engine-title">Every score has an audit trail.</h2>
+          </div>
+          <p>
+            The model is deterministic JavaScript, not a predictive black box. It rebuilds innings in sequence, measures difficulty, compares like with like, then applies safeguards against small samples.
+          </p>
+        </div>
+
+        <div class="engine-steps" aria-label="Model decision process">
+          <article><span>01</span><h3>Rebuild</h3><p>Score, wickets and legal balls are known before each delivery.</p></article>
+          <article><span>02</span><h3>Benchmark</h3><p>Expected outcomes come from comparable match states, excluding the rated player.</p></article>
+          <article><span>03</span><h3>Residualise</h3><p>Runs, wickets and dismissals become value above or below fair expectation.</p></article>
+          <article><span>04</span><h3>Trust carefully</h3><p>Effective sample size, shrinkage and match consistency protect the ranking.</p></article>
+        </div>
+
+        <div class="engine-grid">
+          <article class="formula-card">
+            <p class="eyebrow">Value lab</p>
+            <h3>Outcome minus fair expectation</h3>
+            <div class="segmented compact" role="group" aria-label="Value calculation role">
+              <button type="button" class="value-toggle is-active" data-value-role="bat" aria-pressed="true">Batting</button>
+              <button type="button" class="value-toggle" data-value-role="bowl" aria-pressed="false">Bowling</button>
+            </div>
+            <div class="value-input-grid">
+              <label>Observed runs<input id="observedRuns" type="number" min="0" max="36" step="1" value="14" /></label>
+              <label>Expected runs<input id="expectedRuns" type="number" min="0" max="36" step="0.1" value="9.2" /></label>
+              <label id="eventActualLabel">Dismissal<input id="eventActual" type="number" min="0" max="1" step="1" value="0" /></label>
+              <label id="eventExpectedLabel">Expected dismissal<input id="eventExpected" type="number" min="0" max="1" step="0.01" value="0.19" /></label>
+            </div>
+            <div class="formula-line"><code id="valueFormula">Vbat = (runs − expected) − 4.5 × (dismissal − expected dismissal)</code></div>
+            <div class="value-result"><span>Value above expectation</span><strong id="valueScore">+5.7</strong></div>
+          </article>
+
+          <article class="formula-card reliability-sandbox">
+            <p class="eyebrow">Reliability sandbox</p>
+            <h3>55% quality · 30% uplift · 15% repeatability</h3>
+            <label class="range-row" for="qualityZ"><span>Cautious quality z</span><output id="qualityZOutput">1.10</output><input id="qualityZ" type="range" min="-2.5" max="2.5" step="0.05" value="1.10" /></label>
+            <label class="range-row" for="liftZ"><span>Pressure uplift z</span><output id="liftZOutput">0.80</output><input id="liftZ" type="range" min="-2.5" max="2.5" step="0.05" value="0.80" /></label>
+            <label class="range-row" for="consistencyZ"><span>Match consistency z</span><output id="consistencyZOutput">0.60</output><input id="consistencyZ" type="range" min="-2.5" max="2.5" step="0.05" value="0.60" /></label>
+            <div class="reliability-meter"><div><span id="qualityContribution">+6.1 pts</span><small>quality impact</small></div><div><span id="liftContribution">+2.4 pts</span><small>uplift impact</small></div><div><span id="consistencyContribution">+0.9 pts</span><small>repeatability impact</small></div></div>
+            <div class="value-result"><span>Interactive reliability score</span><strong id="sandboxScore">59.4</strong></div>
+            <code class="small-code">clip(50 + 10 × [0.55Q + 0.30L + 0.15M], 0, 100)</code>
+          </article>
+
+          <article class="source-card">
+            <p class="eyebrow">The safeguards</p>
+            <h3>Why a hot cameo cannot win the model</h3>
+            <ul class="safeguard-list">
+              <li><strong>Leave-player-out benchmark</strong><span>The player's own deliveries cannot inflate the expectation.</span></li>
+              <li><strong>70 effective-ball shrinkage</strong><span>Thin evidence is pulled toward caution.</span></li>
+              <li><strong>Recency + IPL relevance</strong><span>Latest season reaches 1.56× the 2022 weight; IPL balls receive 1.25×.</span></li>
+              <li><strong>Eight-match gate</strong><span>Eligibility requires 60 pressure balls and eight pressure matches.</span></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="evidence" class="section evidence-section jaali-grid" aria-labelledby="evidence-title">
+        <div class="section-heading">
+          <p class="eyebrow">04 · Evidence explorer</p>
+          <h2 id="evidence-title">How much evidence sits behind each score?</h2>
+          <p>Every eligible player is plotted below. Bubble size represents pressure matches; choose a role for an accessible filter, then use the ranking table above to inspect a player’s full evidence card.</p>
+        </div>
+        <div class="evidence-controls" aria-label="Evidence chart controls">
+          <button type="button" class="evidence-filter is-active" data-evidence="all" aria-pressed="true">All players</button>
+          <button type="button" class="evidence-filter" data-evidence="batters" aria-pressed="false">Batters</button>
+          <button type="button" class="evidence-filter" data-evidence="bowlers" aria-pressed="false">Bowlers</button>
+          <span class="chart-legend"><span class="legend-dot batter-dot"></span> Batter <span class="legend-dot bowler-dot"></span> Bowler</span>
+        </div>
+        <article class="chart-card bubble-card">
+          <div class="chart-shell chart-shell-bubble"><canvas id="evidenceChart" aria-label="Pressure balls and reliability scatter plot" role="img"></canvas></div>
+          <p id="chartFallback" class="chart-fallback" hidden>Interactive charts could not load. The table above remains the complete, keyboard-accessible ranking evidence.</p>
+        </article>
+      </section>
+
+      <section id="auction-fit" class="section auction-section" aria-labelledby="auction-title">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">05 · Rajasthan Royals overlay</p>
+            <h2 id="auction-title">The ranking is not the auction bid.</h2>
+          </div>
+          <p>Historical pressure performance comes first. Availability, medical clearance, overseas balance, role fit and price cap determine the pursuit after that.</p>
+        </div>
+        <div class="auction-grid">
+          <article class="auction-card primary"><span>Primary target</span><h3>Matheesha Pathirana</h3><p>Best evidence-led death-bowling fit if final availability and medical clearance hold.</p><strong>347 IPL pressure balls</strong></article>
+          <article class="auction-card conditional"><span>Conditional major bid</span><h3>Mustafizur Rahman<br />Gerald Coetzee</h3><p>Variation or upside, but both are overseas choices with availability gates.</p><strong>Price-controlled only</strong></article>
+          <article class="auction-card value"><span>Value and depth</span><h3>Indian pace reserve</h3><p>Unadkat, Umran, Avesh and Akash are value-tier options—not a substitute for the primary control purchase.</p><strong>Protect the finishing budget</strong></article>
+        </div>
+        <p class="disclaimer">Availability is an optional acquisition filter, not part of the Round 1 historical ranking. No player is presented as a guaranteed auction outcome.</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>SupeRR Pressure Lab · Static frontend built from supplied IPL and T20I ball-by-ball model outputs.</p>
+      <p>Built by <strong>Raunak Prasad</strong> · NIT Durgapur · Context-first cricket analysis for Rajasthan Royals’ 2027 auction thinking.</p>
+    </footer>
+  </body>
+</html>
